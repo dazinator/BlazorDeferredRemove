@@ -78,3 +78,5 @@ And here is the CSS required for this example:
 }
 
 ```
+
+Ofcourse, if you have common transition or animation effects - there is nothing to stop you from deriving your own components from `RemoveOnCssTransitionEnd` or `RemoveOnCssAnimationEnd` components.
