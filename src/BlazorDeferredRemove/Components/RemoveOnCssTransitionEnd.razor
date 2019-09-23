@@ -1,0 +1,39 @@
+﻿@inject IJSRuntime JsRuntime;
+
+@if (ShouldComponentRender)
+{
+    <div @ref="_animationContainer">
+        @if (ShouldComponentRender)
+        {
+            @ChildContent
+        }
+    </div>
+}
+
+
+@code{
+    private ElementReference _animationContainer;
+
+    public bool ShouldComponentRender { get; set; } = true;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string CssPropertyName { get; set; } = "visibility";   
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _animationContainer.RegisterForTransitionEnded(JsRuntime, (transitionName) =>
+            {
+                if (transitionName == CssPropertyName)
+                {
+                    ShouldComponentRender = false;
+                    StateHasChanged();
+                }
+            });
+        }
+    }
+}

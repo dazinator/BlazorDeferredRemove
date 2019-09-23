@@ -1,0 +1,40 @@
+﻿@inject IJSRuntime JsRuntime;
+
+@if (ShouldComponentRender)
+{
+    <div @ref="_animationContainer">
+        @if (ShouldComponentRender)
+        {
+            @ChildContent
+        }
+    </div>
+}
+
+
+@code{
+    private ElementReference _animationContainer;
+
+    public bool ShouldComponentRender { get; set; } = true;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string CssAnimationName { get; set; }
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _animationContainer.RegisterForAnimationEnded(JsRuntime, (animationName) =>
+            {
+                if (string.IsNullOrWhiteSpace(CssAnimationName) || animationName == CssAnimationName)
+                {
+                    ShouldComponentRender = false;
+                    StateHasChanged();
+                }
+            });
+        }
+    }
+}
