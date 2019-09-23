@@ -4,6 +4,7 @@ Wait for CSS Transitions or Animations to occur, before removing blazor render f
 
 Allows you to have fadeout effects etc in your blazor application.
 
+[![Build Status](https://dev.azure.com/darrelltunnell/Public%20Projects/_apis/build/status/dazinator.BlazorDeferredRemove?branchName=master)](https://dev.azure.com/darrelltunnell/Public%20Projects/_build/latest?definitionId=8&branchName=master)
 
 ## Usage
 
