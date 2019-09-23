@@ -1,16 +1,15 @@
 ## Blazor Deferred Remove
 
-Wait for CSS Transitions or Animations to occur, before removing blazor render fragments fro the UI.
-
-Allows you to have fadeout effects etc in your blazor application.
+Wait for CSS Transitions or Animations to complete, before removing your Blazor UI.
+Allows you to achieve fadeout effects etc in your blazor applications.
 
 [![Build Status](https://dev.azure.com/darrelltunnell/Public%20Projects/_apis/build/status/dazinator.BlazorDeferredRemove?branchName=master)](https://dev.azure.com/darrelltunnell/Public%20Projects/_build/latest?definitionId=8&branchName=master)
 
 ## Usage
 
-1. Add the nuget package to your blazor project.
+1. Add the `BlazorDeferredRemove` nuget package to your blazor project.
 
-2. Add the following js to your page - these methods are required for interop:
+2. Add the following js to your page (you can also grab this from the javascript file in the repository) - these methods are required for interop:
 
 ```
 
@@ -36,7 +35,7 @@ Allows you to have fadeout effects etc in your blazor application.
 
 ```
 
-3. In your blazor page / component you can now use the `RemoveOnCssTransitionEnd` or `RemoveOnCssAnimationEnd` components, to have some UI that will be removed from the render tree only after a CSS property transition or CSS animation has completed respectively.
+3. In your blazor page / component you can now wrap your content in a `RemoveOnCssTransitionEnd` or `RemoveOnCssAnimationEnd` component, to have some UI that will be removed from the render tree only after a CSS property transition or CSS animation has completed respectively.
 
 ## Example
 
@@ -81,3 +80,5 @@ And here is the CSS required for this example:
 }
 
 ```
+
+Ofcourse, if you have common transition or animation effects - there is nothing to stop you from deriving your own components from `RemoveOnCssTransitionEnd` or `RemoveOnCssAnimationEnd` components.
