@@ -9,7 +9,7 @@ Allows you to achieve fadeout effects etc in your blazor applications.
 
 1. Add the `BlazorDeferredRemove` nuget package to your blazor project: https://www.nuget.org/packages/BlazorDeferredRemove/
 
-2. Add the following js to your page (you can also grab this from the javascript file in the repository) - these methods are required for interop:
+2. Add the following js to your `Index.html` page (you can also grab this from the javascript file in the repository) - these methods are required for interop:
 
 ```
 
