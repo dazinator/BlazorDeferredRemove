@@ -58,6 +58,7 @@ steps:
     command: 'pack'    
     versioningScheme: byEnvVar
     versionEnvVar: 'GitVersion.SemVer'
+    configuration: '$(buildConfiguration)'  
     
 - task: NuGetCommand@2
   inputs:
