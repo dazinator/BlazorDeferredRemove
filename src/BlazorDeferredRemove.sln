@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Server", "Sample\Server\Sample.Server.csproj", "{8ECEA75A-F49A-4CF7-8360-11EF8CFAE6ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Server", "Sample\Server\Sample.Server.csproj", "{8ECEA75A-F49A-4CF7-8360-11EF8CFAE6ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Client", "Sample\Client\Sample.Client.csproj", "{A849A2E8-BD09-4A08-B25D-B3166FBD618E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Client", "Sample\Client\Sample.Client.csproj", "{A849A2E8-BD09-4A08-B25D-B3166FBD618E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Shared", "Sample\Shared\Sample.Shared.csproj", "{0DDF093C-F679-440A-A454-2472AAC1FCDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Shared", "Sample\Shared\Sample.Shared.csproj", "{0DDF093C-F679-440A-A454-2472AAC1FCDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
