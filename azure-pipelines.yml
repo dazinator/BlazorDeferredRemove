@@ -25,7 +25,8 @@ steps:
   inputs:
     packageType: sdk    
     useGlobalJson: true
-    installationPath: $(Agent.ToolsDirectory)/dotnet   
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+    includePreviewVersions: true
 
 - task: NuGetToolInstaller@1
   inputs:
@@ -58,7 +59,7 @@ steps:
     command: 'pack'    
     versioningScheme: byEnvVar
     versionEnvVar: 'GitVersion.SemVer'
-    configuration: '$(buildConfiguration)'  
+    configuration: '$(buildConfiguration)'      
     
 - task: NuGetCommand@2
   inputs:
