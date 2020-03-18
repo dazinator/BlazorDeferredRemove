@@ -26,7 +26,6 @@ steps:
     packageType: sdk    
     useGlobalJson: true
     installationPath: $(Agent.ToolsDirectory)/dotnet
-    includePreviewVersions: true
 
 - task: NuGetToolInstaller@1
   inputs:
@@ -60,8 +59,7 @@ steps:
     versioningScheme: byEnvVar
     versionEnvVar: 'GitVersion.SemVer'
     configuration: '$(buildConfiguration)'
-    projects: '**/BlazorDeferredRemove.csproj'
-    nobuild: true
+    projects: 'src/BlazorDeferredRemove/BlazorDeferredRemove.csproj'   
     
 - task: NuGetCommand@2
   inputs:
