@@ -1,0 +1,29 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Example that removes blazor UI after css transition.
+<RemoveOnCssTransitionEnd CssPropertyName="visibility">
+    <div class="@GetClassName()">
+        <p>Hey there!</p>
+        <button @onclick="()=>Done()">Click me to disappear!</button>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at odio id risus dapibus sollicitudin ac eget mauris. Vivamus justo leo, mattis quis consectetur sit amet, suscipit sollicitudin lorem. Vestibulum tempor et magna ac tristique. Nullam consectetur diam at augue placerat, vel feugiat metus ultrices. Phasellus ac dolor sit amet lacus euismod pellentesque vel at magna. Praesent nisi justo, tincidunt nec vehicula ut, vehicula at orci. Donec id lobortis lorem, consectetur cursus metus. Sed cursus ipsum nunc, id tempor ligula accumsan aliquet. Nunc efficitur et enim sed hendrerit. Vestibulum consequat a tortor sed bibendum. In placerat turpis sit amet justo ullamcorper, ut dignissim leo vulputate. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc laoreet turpis id mi hendrerit, et efficitur tortor dictum.</p>
+    </div>
+</RemoveOnCssTransitionEnd>
+
+@code{
+
+    [Parameter]
+    public bool StartTransition { get; set; } = false;
+
+    public void Done()
+    {
+        StartTransition = true;
+    }
+
+    public string GetClassName()
+    {
+        return StartTransition ? "fadeout" : "";
+    }
+}
+

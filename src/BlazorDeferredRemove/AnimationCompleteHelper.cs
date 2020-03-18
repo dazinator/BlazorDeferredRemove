@@ -9,9 +9,7 @@ namespace BlazorDeferredRemove
     {
         public static void RegisterForAnimationEnded(this ElementReference elementRef, IJSRuntime jsRuntime, Action<string> animationEndedCallback)
         {
-            //var tcs = new TaskCompletionSource<bool>();
-            //cancellationToken.Register(() => tcs.TrySetCanceled());
-            var helper = new TransitionHelper(elementRef, animationEndedCallback);
+            var helper = new AnimationHelper(elementRef, animationEndedCallback);
 
 #pragma warning disable CS4014 // We don't need the result back so this is fire and forget.
             var dotnetRef = DotNetObjectReference.Create(helper);

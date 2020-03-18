@@ -20,8 +20,5 @@ namespace BlazorDeferredRemove
         {
             _transitionEndedCallback(name);
         }
-
-       
-        //public string SayHello() => $"Hello, {Name}!";
     }
 }
