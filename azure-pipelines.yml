@@ -59,7 +59,8 @@ steps:
     command: 'pack'    
     versioningScheme: byEnvVar
     versionEnvVar: 'GitVersion.SemVer'
-    configuration: '$(buildConfiguration)'      
+    configuration: '$(buildConfiguration)'
+    projects: '**/BlazorDeferredRemove.csproj'
     
 - task: NuGetCommand@2
   inputs:
