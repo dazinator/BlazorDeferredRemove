@@ -22,16 +22,22 @@
     [Parameter]
     public string CssAnimationName { get; set; }
 
+    [Parameter]
+    public EventCallback OnAnimationComplete { get; set; }
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            _animationContainer.RegisterForAnimationEnded(JsRuntime, (animationName) =>
+            _animationContainer.RegisterForAnimationEnded(JsRuntime, async (animationName) =>
             {
                 if (string.IsNullOrWhiteSpace(CssAnimationName) || animationName == CssAnimationName)
                 {
                     ShouldComponentRender = false;
+                    if (OnAnimationComplete.HasDelegate)
+                    {
+                        await OnAnimationComplete.InvokeAsync(null);
+                    }
                     StateHasChanged();
                 }
             });

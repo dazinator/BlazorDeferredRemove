@@ -1,24 +1,25 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
+using System.Threading.Tasks;
 
 namespace BlazorDeferredRemove
 {
     public class AnimationHelper
     {
-        private readonly Action<string> _animationEndedCallback;
+        private readonly Func<string, Task> _animationEndedCallback;
         private readonly ElementReference _element;
 
-        public AnimationHelper(ElementReference element, Action<string> animationEndedCallback)
+        public AnimationHelper(ElementReference element, Func<string, Task> animationEndedCallback)
         {
             _element = element;
             _animationEndedCallback = animationEndedCallback;
         }
 
         [JSInvokable]
-        public void AnimationHasEnded(string name)
+        public async Task AnimationHasEnded(string name)
         {
-            _animationEndedCallback(name);
+            await  _animationEndedCallback(name);
         }
     }
 }

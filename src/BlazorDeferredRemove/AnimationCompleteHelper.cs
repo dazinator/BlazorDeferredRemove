@@ -2,12 +2,13 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlazorDeferredRemove
 {
     public static class AnimationCompleteHelper
     {
-        public static void RegisterForAnimationEnded(this ElementReference elementRef, IJSRuntime jsRuntime, Action<string> animationEndedCallback)
+        public static void RegisterForAnimationEnded(this ElementReference elementRef, IJSRuntime jsRuntime, Func<string, Task> animationEndedCallback)
         {
             var helper = new AnimationHelper(elementRef, animationEndedCallback);
 

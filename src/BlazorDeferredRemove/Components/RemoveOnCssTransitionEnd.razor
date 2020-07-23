@@ -20,17 +20,25 @@
     public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public string CssPropertyName { get; set; } = "visibility";   
+    public string CssPropertyName { get; set; } = "visibility";
+
+    [Parameter]
+    public EventCallback OnTransitionComplete { get; set; }
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            _animationContainer.RegisterForTransitionEnded(JsRuntime, (transitionName) =>
+            _animationContainer.RegisterForTransitionEnded(JsRuntime, async (transitionName) =>
             {
                 if (transitionName == CssPropertyName)
                 {
                     ShouldComponentRender = false;
+
+                    if (OnTransitionComplete.HasDelegate)
+                    {
+                        await OnTransitionComplete.InvokeAsync(null);
+                    }
                     StateHasChanged();
                 }
             });

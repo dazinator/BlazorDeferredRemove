@@ -2,13 +2,14 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlazorDeferredRemove
 {
     public static class TransitionCompleteHelper
     {        
 
-        public static void RegisterForTransitionEnded(this ElementReference elementRef, IJSRuntime jsRuntime, Action<string> transitionEndedCallback)
+        public static void RegisterForTransitionEnded(this ElementReference elementRef, IJSRuntime jsRuntime, Func<string, Task> transitionEndedCallback)
         {
 
             //var tcs = new TaskCompletionSource<bool>();
