@@ -60,6 +60,7 @@ steps:
     versionEnvVar: 'GitVersion.SemVer'
     configuration: '$(buildConfiguration)'
     projects: 'src/BlazorDeferredRemove/BlazorDeferredRemove.csproj'   
+    packagesToPack: 'src/BlazorDeferredRemove/BlazorDeferredRemove.csproj'
     
 - task: NuGetCommand@2
   inputs:
