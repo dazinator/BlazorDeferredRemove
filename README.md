@@ -47,6 +47,7 @@ For example, suppose you have some CSS targeting the 'fadeout' class, that does 
 
 The `OnCompleted` handler above would be invoked once that CSS transition has finished on the JS side.
 
+Note: If you don't specify a CSS propery name (or Animation Name) parameter, it means the call back will be invoked in response to ANY css property transition (or animation) completing within the child content DOM. In the callback on the blazor size you can then inspect the css property name (or animation name) to determine what to do.
 
 There are then a couple of higher level components that use the above Callback components but with the specific goal of ommitting their content from the DOM once the transition or animation has finished:
 
