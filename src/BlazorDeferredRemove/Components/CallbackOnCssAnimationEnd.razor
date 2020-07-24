@@ -1,0 +1,40 @@
+﻿@inject IJSRuntime JsRuntime;
+
+<div @ref="_animationContainer">
+    @ChildContent
+</div>
+
+@code{
+    private ElementReference _animationContainer;
+
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// The name of the css animation that you want to monitor for completion.
+    /// When this is nill, you will be notified when any css animation completes.
+    /// </summary>
+    [Parameter]
+    public string CssAnimationName { get; set; }
+
+    /// <summary>
+    /// A callback that will be invoked whenever a CSS animation completes against this components child content.
+    /// The callback will only be invoked if the animation name that has completed, matches <see cref="CssAnimationName"/> parameter, OR when
+    /// <see cref="CssAnimationName"/> is null (in which case the callback is invoked for any css animation that completed).
+    /// The callback paramater is the name of the css animation that completed.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnCssAnimationCompleted { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _animationContainer.RegisterForAnimationEnded(JsRuntime, async (name) =>
+            {
+                await OnCssAnimationCompleted.InvokeAsync(name);
+            }, CssAnimationName);
+        }
+    }
+}

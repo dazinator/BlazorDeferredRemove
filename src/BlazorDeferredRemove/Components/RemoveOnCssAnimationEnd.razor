@@ -1,40 +1,34 @@
 ﻿@inject IJSRuntime JsRuntime;
 
-@if (ShouldComponentRender)
+@if (!IsCompleted)
 {
-    <div @ref="_animationContainer">
-        @if (ShouldComponentRender)
-        {
-            @ChildContent
-        }
-    </div>
+    <CallbackOnCssAnimationEnd CssAnimationName="@CssAnimationName" OnCssAnimationCompleted="OnCompleted">
+        @ChildContent
+    </CallbackOnCssAnimationEnd>   
 }
 
+@code{  
 
-@code{
-    private ElementReference _animationContainer;
-
-    public bool ShouldComponentRender { get; set; } = true;
+    public bool IsCompleted { get; set; } = true;
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// A callback that will be invoked whenever a CSS animation completes against this components child content.
+    /// The callback will only be invoked if the animation name that has completed, matches <see cref="CssAnimationName"/> parameter, OR when
+    /// <see cref="CssAnimationName"/> is null (in which case the callback is invoked for any css animation that completed).
+    /// The callback paramater is the name of the css animation that completed.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnCssAnimationCompleted { get; set; }
+
     [Parameter]
     public string CssAnimationName { get; set; }
 
-
-    protected override void OnAfterRender(bool firstRender)
+    public async Task OnCompleted(string animationName)
     {
-        if (firstRender)
-        {
-            _animationContainer.RegisterForAnimationEnded(JsRuntime, (animationName) =>
-            {
-                if (string.IsNullOrWhiteSpace(CssAnimationName) || animationName == CssAnimationName)
-                {
-                    ShouldComponentRender = false;
-                    StateHasChanged();
-                }
-            });
-        }
+        IsCompleted = true;
+        await OnCssAnimationCompleted.InvokeAsync(animationName);
     }
 }

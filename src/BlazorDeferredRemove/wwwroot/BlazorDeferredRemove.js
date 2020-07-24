@@ -1,18 +1,33 @@
-﻿window.BlazorRegisterAnimationEnd = (dotnetHelper, element) => {
-    var onAnimationEnded = function (args) {
-        var name = args.animationName;
-        dotnetHelper.invokeMethodAsync('AnimationHasEnded', name);
-    };
-    // Code for Chrome, Safari and Opera
-    element.addEventListener("webkitAnimationEnd", onAnimationEnded);
-    // Standard syntax
-    element.addEventListener("animationend", onAnimationEnded);
-};
+﻿window.BlazorRegisterAnimationOrTransitionEnd = (dotnetHelper, element, animationOrTransitionNameFilter, isAnimation) => {
+    var shouldCallback = function (name) {
+        if (animationOrTransitionNameFilter) {
+            if (name === animationOrTransitionNameFilter) {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
 
-window.BlazorRegisterTransitionEnd = (dotnetHelper, element) => {
-    var onTransitionEnded = function (args) {
-        var name = args.propertyName;
-        dotnetHelper.invokeMethodAsync('TransitionHasEnded', name);
-    };
-    element.addEventListener("transitionend", onTransitionEnded);
+    var createOnEndedHandler = function (propname, invokeMethodName) {
+        var onEnded = function (args) {
+            var name = args[propname]
+            if (shouldCallback(name)) {
+                dotnetHelper.invokeMethodAsync(invokeMethodName, name);
+            }
+        }
+        return onEnded;        
+    };   
+   
+    if (isAnimation) {
+        var onEnded = createOnEndedHandler('animationName', 'AnimationHasEnded');
+        // Code for Chrome, Safari and Opera
+        element.addEventListener("webkitAnimationEnd", onEnded);
+        // Standard syntax
+        element.addEventListener("animationend", onEnded);
+    }
+    else {
+        var onEnded = createOnEndedHandler('propertyName', 'TransitionHasEnded');
+        element.addEventListener("transitionend", onEnded);
+    }  
 };

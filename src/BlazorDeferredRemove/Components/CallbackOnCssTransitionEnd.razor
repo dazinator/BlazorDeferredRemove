@@ -1,0 +1,39 @@
+﻿@inject IJSRuntime JsRuntime;
+
+<div @ref="_animationContainer">
+    @ChildContent
+</div>
+
+@code{
+    private ElementReference _animationContainer;
+
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// The name of the property to which you want to be notified any time a CSS transition completes on it.
+    /// Specify null to be notified when a css transition completes for any property.
+    /// </summary>
+    [Parameter]
+    public string CssPropertyName { get; set; }
+
+    /// <summary>
+    /// A callback that will be invoked whenever a CSS transition completes against the components child content.
+    /// The callback will only be invoked if the property name being transitions matches the one specified by <see cref="CssPropertyName"/> parameter, unless that paramater is null 
+    /// in which case it will be invoked when any CSS property name is transitioned. The callback paramater is the name of the css property that was transitioned.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnCssTransitionCompleted { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _animationContainer.RegisterForTransitionEnded(JsRuntime, async (name) =>
+            {
+                await OnCssTransitionCompleted.InvokeAsync(name);
+            }, CssPropertyName);
+        }
+    }
+}

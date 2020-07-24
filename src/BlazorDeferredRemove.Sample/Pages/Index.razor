@@ -1,0 +1,26 @@
+﻿@page "/"
+
+<RemoveOnCssTransitionEnd CssPropertyName="visibility">
+    <div class="@GetClassName()">
+        <h1>Hello, world!</h1>
+        Welcome to your new app.
+        <button @onclick="()=>Done()">Click here to start transition</button>
+    </div>
+</RemoveOnCssTransitionEnd>
+
+@code{
+
+    [Parameter]
+    public bool StartTransition { get; set; } = false;
+
+    public void Done()
+    {
+        StartTransition = true;
+    }
+
+    public string GetClassName()
+    {
+        return StartTransition ? "fadeout" : "";
+    }
+
+}

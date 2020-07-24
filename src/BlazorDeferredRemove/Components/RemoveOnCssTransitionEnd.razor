@@ -1,39 +1,31 @@
-﻿@inject IJSRuntime JsRuntime;
-
-@if (ShouldComponentRender)
+﻿@if (!IsCompleted)
 {
-    <div @ref="_animationContainer">
-        @if (ShouldComponentRender)
-        {
-            @ChildContent
-        }
-    </div>
+    <CallbackOnCssTransitionEnd CssPropertyName="@CssPropertyName" OnCssTransitionCompleted="OnCompleted">
+        @ChildContent
+    </CallbackOnCssTransitionEnd>
 }
 
-
 @code{
-    private ElementReference _animationContainer;
 
-    public bool ShouldComponentRender { get; set; } = true;
+    public bool IsCompleted { get; set; } = false;
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public string CssPropertyName { get; set; } = "visibility";   
+    public string CssPropertyName { get; set; }
 
-    protected override void OnAfterRender(bool firstRender)
+    /// <summary>
+    /// A callback that will be invoked whenever a CSS transition completes against the components child content.
+    /// The callback will only be invoked if the property name being transitions matches the one specified by <see cref="CssPropertyName"/> parameter, unless that paramater is null 
+    /// in which case it will be invoked when any CSS property name is transitioned. The callback paramater is the name of the css property that was transitioned.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnCssTransitionCompleted { get; set; }
+
+    public async Task OnCompleted(string cssPropertName)
     {
-        if (firstRender)
-        {
-            _animationContainer.RegisterForTransitionEnded(JsRuntime, (transitionName) =>
-            {
-                if (transitionName == CssPropertyName)
-                {
-                    ShouldComponentRender = false;
-                    StateHasChanged();
-                }
-            });
-        }
-    }
+        IsCompleted = true;
+        await OnCssTransitionCompleted.InvokeAsync(cssPropertName);
+    }   
 }

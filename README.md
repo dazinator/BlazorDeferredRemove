@@ -1,7 +1,8 @@
 ## Blazor Deferred Remove
 
-Wait for CSS Transitions or Animations to complete, before removing your Blazor UI.
-Allows you to achieve fadeout effects etc in your blazor applications.
+Get notified when CSS transitions complete on CSS Properties (or CSS animations), so you can do stuff in blazor.
+
+Allows you to do stuff like, stop rendering a blazor component, only once the fadeout transition completes on a CSS visibility property etc.
 
 [![Build Status](https://dev.azure.com/darrelltunnell/Public%20Projects/_apis/build/status/dazinator.BlazorDeferredRemove?branchName=master)](https://dev.azure.com/darrelltunnell/Public%20Projects/_build/latest?definitionId=8&branchName=master)
 
@@ -15,9 +16,44 @@ Allows you to achieve fadeout effects etc in your blazor applications.
     <script src="_content/BlazorDeferredRemove/BlazorDeferredRemove.js"></script>
 ```
 
-3. In your blazor page / component you can now wrap your content in a `RemoveOnCssTransitionEnd` or `RemoveOnCssAnimationEnd` component, to have some UI that will be removed from the render tree only after a CSS property transition or CSS animation has completed respectively.
+## Components
 
-## Example
+There are a couple of lower level components, which you could use directly, as well as a couple of higher level components with a specific task in mind.
+
+The low level components are:
+
+- CallbackOnCssAnimationEnd
+- CallbackOnCssTransitionEnd
+
+
+These components are general purpose and simply raise a callback on the blazor side in response to a given CSS property transition (or CSS animation) completing on the JS side.
+
+For example, suppose you have some CSS targeting the 'fadeout' class, that does a CSS transition on the 'visibility' property:
+
+```
+ <CallbackOnCssTransitionEnd CssPropertyName="visibility" OnCssTransitionCompleted="OnCompleted">
+       <div class='fadeout'><p>foo</p></div>
+ </CallbackOnCssTransitionEnd>
+
+ @code
+ {
+    public async Task OnCompleted(string cssPropertyName)
+    {
+      // Do stuff here 
+    }   
+}
+
+```
+
+The `OnCompleted` handler above would be invoked once that CSS transition has finished on the JS side.
+
+
+There are then a couple of higher level components that use the above Callback components but with the specific goal of ommitting their content from the DOM once the transition or animation has finished:
+
+- RemoveOnCssAnimationEnd
+- RemoveOnCssTransitionEnd
+
+## RemoveOnCssTransitionEnd Example
 
 The following example renders some UI that will be removed once a CSS property transition has completed for `visibility` property:
 
@@ -109,5 +145,3 @@ We then have some CSS for the `fadeout` class, that applies a CSS transition on 
 This means that when you click the button, the css class is appended, which starts the CSS transition. The transition adjusts the visibility property to `hidden` after 2 seconds, and adjusts the `opacity` to 0 over the course of 2 seconds, linearly. This achieves our fadeout effect.
 
 Once that CSS transition has completed, our `RemoveOnCssTransitionEnd` component is notified from the browser (interop) that the CSS transition has completed for a `visibility` property within it's child DOM content. It being a blazor component, it then stops including its child content in the render tree - which then removes the child content from the DOM.
-
-Ofcourse, if you have common transition or animation effects - there is nothing to stop you from creating your own reusable components that leverage `RemoveOnCssTransitionEnd` and `RemoveOnCssAnimationEnd` components internally to achieve your goals.
