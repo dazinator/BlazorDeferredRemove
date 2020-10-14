@@ -21,5 +21,11 @@ namespace BlazorDeferredRemove
         {
             await _transitionEndedCallback(name);
         }
+
+        [JSInvokable]
+        public async Task AnimationHasEnded(string name)
+        {
+            await _transitionEndedCallback(name);
+        }
     }
 }
